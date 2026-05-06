@@ -1,0 +1,1 @@
+some of this stuff is useful. some is not. MVP skills are bangers and all work together nicely. With them even small local models can knock out making a website and minimum viable product to market test ideas.
