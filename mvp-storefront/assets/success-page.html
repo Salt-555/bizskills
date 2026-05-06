@@ -1,0 +1,63 @@
+<!--
+  ALLMIND Post-Checkout Success Page
+  ==================================
+  Serve at /success.
+  Shown after Stripe Checkout completes.
+  Replace all {{PLACEHOLDER}} values.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome — {{PRODUCT_NAME}}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap');
+    :root { --cream: #FAF7F2; --gold: #C5A55A; --gold-dark: #A8893E; --black: #0A0A0A; --stone: #6B6560; --stone-light: #9B9590; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.7; color: #1A1A1A; background: var(--cream); -webkit-font-smoothing: antialiased; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .container { max-width: 520px; text-align: center; padding: 24px; }
+    .divider { width: 48px; height: 1px; background: var(--gold); margin: 0 auto 32px; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 600; color: var(--black); margin-bottom: 16px; }
+    p { font-size: 15px; color: var(--stone); margin-bottom: 24px; }
+    .next-step { display: inline-block; padding: 14px 32px; font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; background: var(--black); color: var(--cream); text-decoration: none; border-radius: 2px; transition: background 0.3s; }
+    .next-step:hover { background: #2D2D2D; }
+    .note { font-size: 12px; color: var(--stone-light); margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="divider"></div>
+    <h1>You're in.</h1>
+    <p>{{SUCCESS_MESSAGE}}</p>
+    <!-- SUCCESS_MESSAGE: What happens next. e.g. "Check your email for login details." or "Your dashboard is ready." -->
+    <a href="{{DASHBOARD_URL}}" class="next-step">{{SUCCESS_CTA}}</a>
+    <p>{{SUCCESS_MESSAGE}}</p>
+    <a href="{{DASHBOARD_URL}}" class="next-step">{{SUCCESS_CTA}}</a>
+    <p class="note">Questions? <a href="mailto:support@allmind.biz" style="color: var(--gold);">support@allmind.biz</a></p>
+  </div>
+  <script>
+    // Auto-trigger download if URL is present
+    if ('{{DASHBOARD_URL}}' !== '#' && '{{DASHBOARD_URL}}'.indexOf('/download') !== -1) {
+      setTimeout(function(){ window.location.href = '{{DASHBOARD_URL}}'; }, 1500);
+    }
+  </script>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '{{META_PIXEL_ID}}');
+  fbq('track', 'PageView');
+  fbq('track', 'Purchase', {value: {{PRODUCT_PRICE}}, currency: 'USD'});
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id={{META_PIXEL_ID}}&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
+</body>
+</html>

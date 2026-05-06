@@ -1,0 +1,313 @@
+<!--
+  ALLMIND App Shell Template
+  ==========================
+  Serve at /app (auth-gated).
+  Provides the chrome around the product's core feature.
+
+  TEMPLATE INSTRUCTIONS:
+  Replace all {{PLACEHOLDER}} values.
+  Add product-specific content in the MAIN CONTENT section.
+  API calls auto-include the user's email for auth.
+
+  PLACEHOLDERS:
+    {{PRODUCT_NAME}}    — Product name (e.g. "FocusPulse")
+    {{APP_TITLE}}       — Page title (e.g. "Dashboard" or "Analyzer")
+    {{MAIN_CONTENT}}    — The product's UI (HTML)
+    {{APP_SCRIPT}}      — Product-specific JavaScript
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{APP_TITLE}} — {{PRODUCT_NAME}}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --cream: #FAF7F2;
+      --cream-dark: #F0EBE3;
+      --gold: #C5A55A;
+      --gold-light: #D4BA7A;
+      --gold-dark: #A8893E;
+      --black: #0A0A0A;
+      --black-soft: #1A1A1A;
+      --charcoal: #2D2D2D;
+      --stone: #6B6560;
+      --stone-light: #9B9590;
+      --green: #4A7C59;
+      --red: #8C3A3A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--black-soft);
+      background: var(--cream);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Header ─── */
+    .app-header {
+      border-bottom: 1px solid var(--cream-dark);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .app-header .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .app-header .user-info {
+      font-size: 12px;
+      color: var(--stone-light);
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── Main Content ─── */
+    .app-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .app-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+
+    /* ─── Card Component ─── */
+    .card {
+      background: white;
+      border: 1px solid var(--cream-dark);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    /* ─── Table Component ─── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone-light);
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+
+    .data-table td {
+      font-size: 14px;
+      color: var(--charcoal);
+      padding: 12px;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* ─── Button Component ─── */
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--cream);
+    }
+    .btn-primary:hover { background: var(--charcoal); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--stone);
+      border: 1px solid var(--cream-dark);
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ─── Form Components ─── */
+    .input {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      border: 1px solid var(--cream-dark);
+      background: white;
+      color: var(--black);
+      transition: border-color 0.2s;
+    }
+    .input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .input::placeholder { color: var(--stone-light); }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--stone);
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── Status Indicators ─── */
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .status-green { background: var(--green); }
+    .status-red { background: var(--red); }
+    .status-gold { background: var(--gold); }
+
+    /* ─── Empty State ─── */
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--stone-light);
+    }
+    .empty-state h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--stone);
+      margin-bottom: 8px;
+    }
+    .empty-state p {
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    /* ─── Loading ─── */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--stone-light);
+      font-size: 13px;
+    }
+
+    /* ─── Toast Notifications ─── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      font-size: 13px;
+      background: var(--black);
+      color: var(--cream);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      .app-container { padding: 24px 16px; }
+      .card { padding: 16px; }
+      .app-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <a href="/" class="brand">{{PRODUCT_NAME}}</a>
+    <span class="user-info" id="user-email"></span>
+  </header>
+
+  <main class="app-container">
+    <h1 class="app-title">{{APP_TITLE}}</h1>
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT: Replace this section
+         with product-specific UI
+         ═══════════════════════════════════════ -->
+    {{MAIN_CONTENT}}
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ─── API Helper ───
+    // Automatically includes email param for auth on all requests.
+    const USER_EMAIL = new URLSearchParams(window.location.search).get('email')
+      || document.cookie.match(/fp_email=([^;]+)/)?.[1]
+      || '';
+
+    document.getElementById('user-email').textContent = USER_EMAIL;
+
+    async function api(method, path, body = null) {
+      const sep = path.includes('?') ? '&' : '?';
+      const url = `${path}${sep}email=${encodeURIComponent(USER_EMAIL)}`;
+      const opts = {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+      };
+      if (body) opts.body = JSON.stringify(body);
+      const resp = await fetch(url, opts);
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: 'Request failed' }));
+        throw new Error(err.error || `HTTP ${resp.status}`);
+      }
+      return resp.json();
+    }
+
+    function toast(msg, duration = 3000) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), duration);
+    }
+
+    // ─── Product Script ───
+    {{APP_SCRIPT}}
+  </script>
+</body>
+</html>

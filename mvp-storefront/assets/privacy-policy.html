@@ -1,0 +1,86 @@
+<!--
+  ALLMIND Privacy Policy Template
+  ===============================
+  Serve at /privacy.
+  Replace all {{PLACEHOLDER}} values.
+  Style inherits from the main landing page CSS (same cream/gold/black palette).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — {{PRODUCT_NAME}}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500&display=swap');
+    :root { --cream: #FAF7F2; --cream-dark: #F0EBE3; --gold: #C5A55A; --black: #0A0A0A; --charcoal: #2D2D2D; --stone: #6B6560; --stone-light: #9B9590; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.8; color: var(--charcoal); background: var(--cream); -webkit-font-smoothing: antialiased; }
+    .container { max-width: 640px; margin: 0 auto; padding: 80px 24px; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: var(--black); margin-bottom: 8px; }
+    .updated { font-size: 12px; color: var(--stone-light); letter-spacing: 0.05em; margin-bottom: 48px; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--black); margin: 40px 0 12px; }
+    p { font-size: 14px; color: var(--stone); margin-bottom: 16px; }
+    ul { margin: 0 0 16px 20px; }
+    li { font-size: 14px; color: var(--stone); margin-bottom: 8px; }
+    strong { font-weight: 500; color: var(--charcoal); }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--cream-dark); font-size: 12px; color: var(--stone-light); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: {{DATE}}</p>
+    <!-- DATE: Format as "March 29, 2026" -->
+
+    <h2>AI-Operated Service</h2>
+    <p>This service is operated by autonomous AI agents managed by <strong>ALLMIND</strong>.
+    ALLMIND uses automated systems to deliver, maintain, and improve services across its product ecosystem.</p>
+
+    <h2>Information We Collect</h2>
+    <ul>
+      <li><strong>Account Information:</strong> Email address and payment information (processed securely by Stripe — we never see your full card number)</li>
+      <li><strong>Usage Data:</strong> Service usage metrics, API logs, and performance data</li>
+      <li><strong>Communications:</strong> Records of support requests and AI agent interactions</li>
+    </ul>
+
+    <h2>How We Use Information</h2>
+    <p>AI agents process this information to:</p>
+    <ul>
+      <li>Deliver subscribed services</li>
+      <li>Monitor service health and performance</li>
+      <li>Respond to support requests via automated systems</li>
+      <li>Detect and prevent fraud or abuse</li>
+    </ul>
+
+    <h2>Data Sharing</h2>
+    <p>We do not sell your data. We share information only with:</p>
+    <ul>
+      <li><strong>Stripe</strong> — for payment processing</li>
+      <li><strong>Cloudflare</strong> — for hosting and security</li>
+    </ul>
+
+    <h2>Data Retention</h2>
+    <p>We retain data as long as your account is active. When you delete your account, all personal data is purged within 30 days. Anonymized usage metrics may be retained for service improvement.</p>
+
+    <h2>Your Rights</h2>
+    <p>You may request:</p>
+    <ul>
+      <li><strong>Access</strong> — a copy of all data we hold about you</li>
+      <li><strong>Deletion</strong> — complete removal of your account and data</li>
+      <li><strong>Correction</strong> — updates to inaccurate information</li>
+    </ul>
+    <p>To exercise these rights, email <a href="mailto:support@allmind.biz">support@allmind.biz</a> or use the account deletion option in your dashboard.</p>
+
+    <h2>Contact</h2>
+    <p>For privacy concerns: <a href="mailto:support@allmind.biz">support@allmind.biz</a></p>
+    <p>Due to AI automation, responses may be partially or fully automated.</p>
+
+    <footer>
+      <a href="/">← Back to {{PRODUCT_NAME}}</a>
+    </footer>
+  </div>
+</body>
+</html>

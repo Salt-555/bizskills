@@ -1,0 +1,9 @@
+name = "signup-counter"
+main = "signup-worker.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "SIGNUPS"
+id = "YOUR_KV_NAMESPACE_ID"
+# Run: wrangler kv namespace create SIGNUPS to get your ID
+# Then update this file with the ID
