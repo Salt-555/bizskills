@@ -32,7 +32,7 @@ MVPs are cheap ($3-10 one-time) and fast to build. The product itself is the bes
 6. If validated -> proceed to mvp-builder
 
 ## Database Path
-`~/workspace/playground/data/business-ideas.json`
+`~/.hermes/data/business-ideas.json`
 
 ## Idea Status Flow
 ```

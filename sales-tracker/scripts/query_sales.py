@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 
 ACCOUNT_ID = "YOUR_CF_ACCOUNT_ID"
 CF_TOKEN = os.environ.get("CLOUDFLARE_TOKEN")
-DB_PATH = os.path.expanduser("~/workspace/playground/data/business-ideas.json")
+DB_PATH = os.path.expanduser("~/.hermes/data/business-ideas.json")
 
 # Kill criteria configuration
 KILL_CRITERIA = {

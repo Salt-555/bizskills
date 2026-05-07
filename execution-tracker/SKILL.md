@@ -17,7 +17,7 @@ Monitor deployed MVPs, collect performance metrics, signal strategic decisions, 
 ## Setup (One-Time)
 
 ### Initial Configuration
-When first run, create config file at `/workspace/playground/data/execution-tracker-config.json`:
+When first run, create config file at `~/.hermes/data/execution-tracker-config.json`:
 
 ```json
 {
@@ -82,7 +82,7 @@ Either:
 
 **1a. Identify Deployed MVPs**
 
-Read `/workspace/playground/data/execution-tracker-config.json` to get list of tracked MVPs.
+Read `~/.hermes/data/execution-tracker-config.json` to get list of tracked MVPs.
 Filter for `status == "active"` and extract:
 - mvp_id, name, mvp_url, api_url
 - stripe_product_id, database_connection, analytics_site_id
@@ -96,7 +96,7 @@ IF you have N >= 2 deployed MVPs, SPAWN PARALLEL SUBAGENTS for metrics collectio
    - Call `delegate_task(tasks=[...], max_iterations=15)` where tasks is an array of N task objects
    - Each task object has:
      - **goal**: "Collect complete metrics snapshot for MVP {mvp_name} (ID: {mvp_id}). Return ONLY a JSON object with these exact keys: mvp_id, date, revenue, traffic, engagement, health, ads. If any metric is unavailable, return null for that field. Do NOT include markdown formatting or explanations."
-     - **context**: "{mvp_name} configuration:\n- ID: {mvp_id}\n- MVP URL: {mvp_url}\n- API URL: {api_url}\n- Stripe Product ID: {stripe_product_id}\n- Database Connection: {database_connection}\n- Analytics Site ID: {analytics_site_id}\n\nData file paths:\n- Ad campaigns: /workspace/playground/data/ads/{mvp_id}/campaigns.json\n- Ad metrics: /workspace/playground/data/ads/{mvp_id}/metrics/\n- Metrics output directory: /workspace/playground/data/mvp-metrics/{mvp_id}/\n\nCredentials available via environment: STRIPE_API_KEY, PLAUSIBLE_API_KEY"
+     - **context**: "{mvp_name} configuration:\n- ID: {mvp_id}\n- MVP URL: {mvp_url}\n- API URL: {api_url}\n- Stripe Product ID: {stripe_product_id}\n- Database Connection: {database_connection}\n- Analytics Site ID: {analytics_site_id}\n\nData file paths:\n- Ad campaigns: ~/.hermes/data/ads/{mvp_id}/campaigns.json\n- Ad metrics: ~/.hermes/data/ads/{mvp_id}/metrics/\n- Metrics output directory: ~/.hermes/data/mvp-metrics/{mvp_id}/\n\nCredentials available via environment: STRIPE_API_KEY, PLAUSIBLE_API_KEY"
      - **toolsets**: ["terminal", "file"]
 
 2. Wait for all subagent results to return (this is blocking parallel execution)
@@ -122,7 +122,7 @@ IF N = 1 or all subagent spawns fail, skip to Step 1c (serial collection).
 
 If NOT using parallel subagents, collect metrics for each MVP sequentially:
 ```python
-ad_metrics = read_json(f"/workspace/playground/data/ads/{mvp.id}/metrics/{today}.json")
+ad_metrics = read_json(f"~/.hermes/data/ads/{mvp.id}/metrics/{today}.json")
 
 # Today's combined spend
 ad_spend_today = (
@@ -131,7 +131,7 @@ ad_spend_today = (
 )
 
 # 30-day spend: sum all metrics files from last 30 days
-metrics_files = list_files(f"/workspace/playground/data/ads/{mvp.id}/metrics/", last_n_days=30)
+metrics_files = list_files(f"~/.hermes/data/ads/{mvp.id}/metrics/", last_n_days=30)
 ad_spend_30d = sum(
     (f["google"]["spend_today"] + f["meta"]["spend_today"])
     for f in metrics_files
@@ -157,7 +157,7 @@ m_cpa = ad_metrics["meta"]["spend_30d"] / ad_metrics["meta"]["conversions_30d"] 
 best_platform = "google" if g_cpa <= m_cpa else "meta"
 
 # Active campaigns check
-campaigns = read_json(f"/workspace/playground/data/ads/{mvp.id}/campaigns.json")
+campaigns = read_json(f"~/.hermes/data/ads/{mvp.id}/campaigns.json")
 active_campaigns = any(c["status"] == "active" for c in campaigns)
 
 # Ad signal from combined metrics
@@ -242,7 +242,7 @@ metrics = {
 
 **Store metrics:**
 ```python
-# Append to /workspace/playground/data/mvp-metrics/{mvp-id}/2026-03-08.json
+# Append to ~/.hermes/data/mvp-metrics/{mvp-id}/2026-03-08.json
 {
     "date": "2026-03-08",
     "revenue": {...},
@@ -433,7 +433,7 @@ if status == "KILL":
     # AUTO-PAUSE ALL AD CAMPAIGNS IMMEDIATELY (safety first!)
     ads_paused = False
     try:
-        campaigns_file = f"/workspace/playground/data/ads/{mvp.id}/campaigns.json"
+        campaigns_file = f"~/.hermes/data/ads/{mvp.id}/campaigns.json"
         if os.path.exists(campaigns_file):
             campaigns = read_json(campaigns_file)
             for campaign in campaigns:
@@ -476,7 +476,7 @@ Reply within 7 days:
         schedule=f"0 {9} *+{settings['kill_escalation_days']} * *",
         prompt=f"""
 Check KILL signal for {mvp.id}. If no user response after 7 days, auto-confirm kill.
-Database: ~/workspace/playground/data/business-ideas.json
+Database: ~/.hermes/data/business-ideas.json
         """,
         deliver="telegram"
     )
@@ -656,9 +656,9 @@ For each deployed MVP:
 
 Performance: With N>=2 MVPs, metrics collection goes from 3N minutes → ~5 minutes.
 
-Database: ~/workspace/playground/data/business-ideas.json
-Config: /workspace/playground/data/execution-tracker-config.json
-Metrics: /workspace/playground/data/mvp-metrics/{mvp-id}/
+Database: ~/.hermes/data/business-ideas.json
+Config: ~/.hermes/data/execution-tracker-config.json
+Metrics: ~/.hermes/data/mvp-metrics/{mvp-id}/
 
 Action limits:
 - Ad budget: Max 2x initial budget
@@ -746,7 +746,7 @@ Track tracker performance:
 ## Verification
 - Daily Telegram report arrives at 9am with data for all tracked MVPs
 - With N>=2 MVPs, total runtime should be ~5-8 minutes (not 3N minutes - verify parallel speedup)
-- All MVPs have at least one metrics file in `/workspace/playground/data/mvp-metrics/{mvp-id}/`
+- All MVPs have at least one metrics file in `~/.hermes/data/mvp-metrics/{mvp-id}/`
 - Signal classifications match a manual spot-check of the underlying data
 - Autonomous actions logged in `execution-tracker-config.json` under `autonomous_actions_taken`
 - KILL candidate alerts pause - no auto-kill fires without explicit user confirmation

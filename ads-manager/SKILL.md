@@ -408,7 +408,7 @@ This history is CRITICAL for recovery. A fresh session needs to know what's been
 
 ## WORKFLOW 3: Metrics Feed for Execution-Tracker
 When execution-tracker runs, load today's ad snapshot per MVP:
-Use execute_code to read /workspace/playground/data/ads/{mvp_id}/metrics/{today}.json if it exists.
+Use execute_code to read ~/.hermes/data/ads/{mvp_id}/metrics/{today}.json if it exists.
 Return: ad_spend_today, ad_spend_30d, total_conversions_30d, blended_cpa, best_platform, ad_signal.
 If file not found: return nulls (monitor hasn't run yet today, not an error).
 

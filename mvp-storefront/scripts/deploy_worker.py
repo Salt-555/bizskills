@@ -35,7 +35,7 @@ STRIPE_KEY = os.environ.get("STRIPE_SECRET_KEY")
 BASE_API = "https://api.cloudflare.com/client/v4"
 PROXY_NAME = "payment-proxy"
 CUSTOM_DOMAIN = "yourdomain.com"
-ZONE_ID = "ab0e89c5534fae79b334a3b423f6603d"
+ZONE_ID = os.environ.get("CF_ZONE_ID", "")  # Set CF_ZONE_ID env var for custom domain setup
 IDEAS_DB = os.path.expanduser("~/.hermes/data/business-ideas.json")
 
 if not CF_TOKEN:
